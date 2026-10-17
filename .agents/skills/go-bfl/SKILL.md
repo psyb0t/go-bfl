@@ -1,6 +1,7 @@
 ---
 name: go-bfl
-description: Use the unofficial Black Forest Labs FLUX Go API client to submit image or video tasks, poll results, use image and video tools, inspect credits or manage fine-tunes. Applies to Go projects importing github.com/psyb0t/go-bfl.
+description: Writes Go code with go-bfl (package bfl, github.com/psyb0t/go-bfl), an unofficial generated client for the Black Forest Labs FLUX API. Use when a Go program submits FLUX image or video generation tasks, polls task results, calls the image and video tools, reads credits or manages fine-tunes.
+license: MIT
 homepage: https://github.com/psyb0t/go-bfl
 user-invocable: true
 metadata:
@@ -9,8 +10,6 @@ metadata:
     requires:
       bins:
         - go
-      env:
-        - BFL_API_KEY
 permissions:
   filesystem: "Guides edits to Go source. The client reads and writes no files."
   shell: "The Go toolchain to add and compile the dependency."
@@ -21,7 +20,7 @@ permissions:
 
 Unofficial, typed Go client for the Black Forest Labs FLUX API. Package `bfl` lives at the module root. Read [references/setup.md](references/setup.md) for constructors, operation names and response handling.
 
-## Security and safety
+## Security & safety
 
 - Load `BFL_API_KEY` from the environment. Send it in `x-key` through `bfl.WithRequestEditorFn`. Never log the key, task IDs or signed output URLs.
 - Use `https://api.bfl.ai`. Validate HTTPS and an approved provider host before following a returned `polling_url`; never send the key to an arbitrary URL.
@@ -30,6 +29,20 @@ Unofficial, typed Go client for the Black Forest Labs FLUX API. Package `bfl` li
 ## When to use
 
 Use for Go code that submits FLUX image or video tasks, uses FLUX tools, polls task status, reads credits or manages fine-tunes. This module is unofficial. For changing the generated client, read the repository's `AGENTS.md`.
+
+## Finding endpoints and types
+
+The examples below cover a few calls. Every operation in the spec has a generated method, and the spec's descriptions are on them as Go doc comments. Look names and fields up instead of guessing. After `go get github.com/psyb0t/go-bfl`, from inside your module:
+
+```bash
+go doc github.com/psyb0t/go-bfl ClientWithResponsesInterface    # every endpoint method
+go doc github.com/psyb0t/go-bfl GetResultV1GetResultGetParams   # one method, params type or model
+go doc -all github.com/psyb0t/go-bfl                            # the whole package
+```
+
+The same documentation is at https://pkg.go.dev/github.com/psyb0t/go-bfl.
+
+Method names come from the spec's operation IDs, which include the path and HTTP method (`FluxPro11V1FluxPro11Post`). `<OperationId>WithResponse` takes the context, then the path parameters in order, then `*<OperationId>Params` when the operation has query or header parameters, then the request body when it has one. The `JSON200` field (or `JSON422` and so on, per declared status) holds the decoded body; it is nil for any other status. Submission and result bodies are unions, decoded with the `As...` accessors described below.
 
 ## Usage
 

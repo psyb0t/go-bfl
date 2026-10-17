@@ -137,6 +137,8 @@ The same code is in `example_test.go`, so `make test` checks that it compiles. T
 
 Method names follow the spec's operation IDs. Some success bodies are unions: use `AsAsyncResponse()`, `AsAsyncWebhookResponse()`, `AsResultResponse()` or `AsSettledCostResultResponse()` as appropriate. These accessors decode without validating required fields. HTTP failures usually return nil `JSON200`; inspect `StatusCode()` and `Body`. Only transport and decoding failures use the Go error return. There are no automatic retries, polling or schema validation.
 
+The full API is in the [Go reference](https://pkg.go.dev/github.com/psyb0t/go-bfl); after `go get`, `go doc github.com/psyb0t/go-bfl` prints it locally.
+
 ## Auth
 
 The spec's `APIKeyHeader` scheme sends the API key in `x-key`. Read `BFL_API_KEY` from the environment and set it with `WithRequestEditorFn`, as shown above. The base URL is `https://api.bfl.ai`. `/v1/get_result` has no security requirement in the spec; a client-wide request editor still adds its header. Keep task IDs and signed result URLs private. Back off on 429 responses; avoid retrying a paid submission blindly.
