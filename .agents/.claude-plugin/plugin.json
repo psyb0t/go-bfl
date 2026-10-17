@@ -1,0 +1,18 @@
+{
+  "name": "go-bfl",
+  "description": "Unofficial Go client for the Black Forest Labs FLUX API, generated from its public OpenAPI specification.",
+  "author": {
+    "name": "psyb0t",
+    "url": "https://github.com/psyb0t"
+  },
+  "homepage": "https://github.com/psyb0t/go-bfl",
+  "license": "MIT",
+  "keywords": [
+    "bfl",
+    "flux",
+    "image-generation",
+    "api-client",
+    "go-library",
+    "openapi"
+  ]
+}
