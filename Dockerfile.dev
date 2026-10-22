@@ -1,15 +1,15 @@
 # Development image for all Makefile-driven Go checks.
 #
-# Pins the Go 1.26.9 toolchain and carries the linter and security scanners, so
+# Pins the Go 1.26.10 toolchain and carries the linter and security scanners, so
 # `make lint`, `make test` and `make sec` run identically
 # in a local shell and in CI (the pipeline runs every make target inside this
 # image, so there is no host toolchain to drift).
-FROM golang:1.26.9-alpine@sha256:3082400e369fa24d5fc60bca20edab3f6d604e0c5a690ec66b295eff4dd87ade
+FROM golang:1.26.10-alpine@sha256:5cb67f19c5e7994dcb80c074f7cfca8aeeada45bbdca035f73df269cefdcce61
 
 RUN apk add --no-cache \
 		bash=5.3.9-r1 \
 		build-base=0.5-r4 \
-		ca-certificates=20260909-r0 \
+		ca-certificates=20261020-r0 \
 		git=2.54.0-r0 \
 		jq=1.8.2-r0 \
 		make=4.4.1-r4 \

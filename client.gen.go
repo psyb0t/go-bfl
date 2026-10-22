@@ -91,16 +91,19 @@ func (e Flux3ImageInputsAspectRatio1) Valid() bool {
 
 // Defines values for Flux3ImageInputsResolution.
 const (
-	Flux3ImageInputsResolutionN15k   Flux3ImageInputsResolution = "1.5k"
-	Flux3ImageInputsResolutionN1k    Flux3ImageInputsResolution = "1k"
-	Flux3ImageInputsResolutionN2k    Flux3ImageInputsResolution = "2k"
-	Flux3ImageInputsResolutionN4k    Flux3ImageInputsResolution = "4k"
-	Flux3ImageInputsResolutionN768sq Flux3ImageInputsResolution = "768sq"
+	Flux3ImageInputsResolutionMatchInput Flux3ImageInputsResolution = "match_input"
+	Flux3ImageInputsResolutionN15k       Flux3ImageInputsResolution = "1.5k"
+	Flux3ImageInputsResolutionN1k        Flux3ImageInputsResolution = "1k"
+	Flux3ImageInputsResolutionN2k        Flux3ImageInputsResolution = "2k"
+	Flux3ImageInputsResolutionN4k        Flux3ImageInputsResolution = "4k"
+	Flux3ImageInputsResolutionN768sq     Flux3ImageInputsResolution = "768sq"
 )
 
 // Valid indicates whether the value is a known member of the Flux3ImageInputsResolution enum.
 func (e Flux3ImageInputsResolution) Valid() bool {
 	switch e {
+	case Flux3ImageInputsResolutionMatchInput:
+		return true
 	case Flux3ImageInputsResolutionN15k:
 		return true
 	case Flux3ImageInputsResolutionN1k:
@@ -845,6 +848,9 @@ type FinetuneFluxUltraInput struct {
 	// Example: 42
 	Seed *int `json:"seed,omitempty"`
 
+	// User Opaque identifier for the end user supplied by the calling platform.
+	User *string `json:"user,omitempty"`
+
 	// WebhookSecret Optional secret for webhook signature verification
 	WebhookSecret *string `json:"webhook_secret,omitempty"`
 
@@ -1127,20 +1133,29 @@ type Flux3ImageInputs struct {
 	// Grounding When true (default) the prompt may be grounded in external research: web search and image search. When false, both are off.
 	Grounding *bool `json:"grounding,omitempty"`
 
+	// Height Exact output height in pixels, [256, 6256]; width x height at most 16822272 pixels, and at most 4194304 with reference images.
+	Height *int `json:"height,omitempty"`
+
 	// Images Optional reference image(s) the prompt edits or draws from; each is an http(s) URL or base64, one to 10 total.
 	Images *Flux3ImageInputs_Images `json:"images,omitempty"`
 
 	// Prompt Free-form prompt describing the image.
 	Prompt string `json:"prompt"`
 
-	// Resolution Image resolution class, an equal-pixel-area tier: `768sq`, `1k`, `1.5k`, `2k`, or `4k`. Exact dimensions vary with the aspect ratio.
+	// Resolution Image resolution class, an equal-pixel-area tier: `768sq`, `1k` (default), `1.5k`, `2k`, or `4k`. Exact dimensions vary with the aspect ratio. `match_input` (edits only): the output keeps the first reference's own size (shrunk to 4 MP when larger), or its nearest tier when aspect_ratio is set. Ignored when width and height are set.
 	Resolution *Flux3ImageInputsResolution `json:"resolution,omitempty"`
 
 	// SafetyTolerance Harm moderation tolerance from 0 to 7, with 0 the strictest. The route and organization determine the approved maximum and per-category ceilings. Unapproved levels return 422 with approved levels.
 	SafetyTolerance *int `json:"safety_tolerance,omitempty"`
 
+	// User Opaque identifier for the end user supplied by the calling platform.
+	User *string `json:"user,omitempty"`
+
 	// Version Endpoint version. `latest` (default) serves the current release; dated pinnable release tags are added here as they are published.
 	Version *Flux3ImageInputsVersion `json:"version,omitempty"`
+
+	// Width Exact output width in pixels, [256, 6256]; set together with height. Overrides resolution and aspect_ratio.
+	Width *int `json:"width,omitempty"`
 }
 
 // Flux3ImageInputsAspectRatio0 defines model for Flux3ImageInputs.AspectRatio.0.
@@ -1165,7 +1180,7 @@ type Flux3ImageInputs_Images struct {
 	union json.RawMessage
 }
 
-// Flux3ImageInputsResolution Image resolution class, an equal-pixel-area tier: `768sq`, `1k`, `1.5k`, `2k`, or `4k`. Exact dimensions vary with the aspect ratio.
+// Flux3ImageInputsResolution Image resolution class, an equal-pixel-area tier: `768sq`, `1k` (default), `1.5k`, `2k`, or `4k`. Exact dimensions vary with the aspect ratio. `match_input` (edits only): the output keeps the first reference's own size (shrunk to 4 MP when larger), or its nearest tier when aspect_ratio is set. Ignored when width and height are set.
 type Flux3ImageInputsResolution string
 
 // Flux3ImageInputsVersion Endpoint version. `latest` (default) serves the current release; dated pinnable release tags are added here as they are published.
@@ -1199,6 +1214,9 @@ type Flux3ImageKleinInputs struct {
 
 	// Steps Denoising steps (default 16).
 	Steps *int `json:"steps,omitempty"`
+
+	// User Opaque identifier for the end user supplied by the calling platform.
+	User *string `json:"user,omitempty"`
 
 	// Width Exact output width in pixels, [64, 6256]; set together with height. Overrides resolution and aspect_ratio.
 	Width *int `json:"width,omitempty"`
