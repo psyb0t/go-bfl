@@ -1,6 +1,6 @@
 {
   "name": "go-bfl",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Unofficial Go client for the Black Forest Labs FLUX API, generated from its public OpenAPI specification.",
   "author": {
     "name": "psyb0t",
