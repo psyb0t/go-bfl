@@ -2,6 +2,13 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.5, 2026-11-20
+
+- Raised the minimum Go version in `go.mod` from 1.26.10 to 1.26.11. Go 1.26.10 has GO-2026-6859, a `net/http` crash from a `MaxBytesReader` header race, which `govulncheck` reports.
+- Moved the development image (`Dockerfile.dev`) to `golang:1.26.11-trixie` with its digest pinned.
+- Updated the Go version in the setup reference of the `go-bfl` skill.
+- No exported API changes.
+
 ## v0.1.4, 2026-10-28
 
 - Updated Semgrep in the development image to 1.182.1 and refreshed its locked dependencies. certifi 2026.10.23 drops the emSign root CAs whose intermediate keys were compromised (GHSA-6q48-6c7w-9gw2).
